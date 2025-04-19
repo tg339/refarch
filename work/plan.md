@@ -1,9 +1,9 @@
 # RefArch Implementation Plan - Phase 1
 
 ## 1. Foundation 
-- [ ] Set up Next.js 15, TypeScript, Tailwind CSS 4, and Shadcn UI
+- [x] Set up Next.js 15, TypeScript, Tailwind CSS 4, and Shadcn UI
 - [ ] Implement TOML parsing utilities for architecture blueprint files
-- [ ] Create basic application layout and navigation
+- [x] Create basic application layout and navigation
 
 ## 2. Configuration Panel 
 - [ ] Design and implement configuration panel UI

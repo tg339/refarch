@@ -1,51 +1,5 @@
 # Architecture Blueprint
 
-# Infrastructure Layer
-[infrastructure]
-
-[infrastructure.compute]
-components = [
-  "Virtual Machines",
-  "Bare Metal Servers",
-  "Serverless Compute (FaaS)",
-  "Edge Computing Nodes",
-]
-
-[infrastructure.storage]
-components = [
-  "Object Storage",
-  "Block Storage",
-  "File Storage",
-  "Storage Gateways",
-]
-
-[infrastructure.networking]
-components = [
-  "Virtual Networks",
-  "Load Balancers",
-  "Service Mesh",
-  "CDN",
-  "API Gateways",
-  "Ingress Controllers",
-]
-
-# Container Orchestration Layer
-[container_orchestration]
-
-[container_orchestration.platforms]
-components = ["Kubernetes", "Docker Swarm", "OpenShift"]
-
-[container_orchestration.workload_management]
-components = ["Deployments", "StatefulSets", "DaemonSets", "Jobs/CronJobs"]
-
-[container_orchestration.scheduling]
-components = [
-  "Node Selectors",
-  "Taints/Tolerations",
-  "Resource Quotas",
-  "Autoscalers",
-]
-
 # Presentation Layer
 [presentation]
 
@@ -64,6 +18,7 @@ components = [
   "API Documentation",
   "API Versioning",
   "API Authorization",
+  "MCPs",
 ]
 
 [presentation.client_side_frameworks]
@@ -101,36 +56,6 @@ components = [
   "Business Process Management",
   "Workflow Engines",
   "Rule Engines",
-]
-
-# Communications Layer
-[communications]
-
-[communications.notification_services]
-components = [
-  "Push Notification Services",
-  "Email Service Providers",
-  "SMS Gateways",
-  "In-App Notification Systems",
-  "WebSockets",
-]
-
-[communications.messaging_channels]
-components = [
-  "Chat Systems",
-  "Collaboration Tools",
-  "Messaging Platforms",
-  "Voice Communications",
-  "Video Conferencing",
-]
-
-[communications.communications_management]
-components = [
-  "Message Templates",
-  "Communication Preferences",
-  "Delivery Status Tracking",
-  "A/B Testing for Communications",
-  "Multi-channel Orchestration",
 ]
 
 # Data Layer
@@ -195,6 +120,123 @@ components = [
   "Pub/Sub Systems",
 ]
 
+# Communications Layer
+[communications]
+
+[communications.notification_services]
+components = [
+  "Push Notification Services",
+  "Email Service Providers",
+  "SMS Gateways",
+  "In-App Notification Systems",
+  "WebSockets",
+]
+
+[communications.messaging_channels]
+components = [
+  "Chat Systems",
+  "Collaboration Tools",
+  "Messaging Platforms",
+  "Voice Communications",
+  "Video Conferencing",
+]
+
+[communications.communications_management]
+components = [
+  "Message Templates",
+  "Communication Preferences",
+  "Delivery Status Tracking",
+  "A/B Testing for Communications",
+  "Multi-channel Orchestration",
+]
+
+# Intelligence Layer
+[intelligence]
+
+[intelligence.recommendation_engines]
+components = [
+  "Collaborative Filtering Systems",
+  "Content-Based Recommenders",
+  "Hybrid Recommendation Systems",
+  "Real-time Recommendation Engines",
+  "Personalization Engines",
+]
+
+[intelligence.machine_learning]
+components = [
+  "ML Model Training Pipelines",
+  "Model Serving Infrastructure",
+  "Feature Stores",
+  "Model Monitoring",
+  "A/B Testing Frameworks",
+]
+
+[intelligence.ai_services]
+components = [
+  "Natural Language Processing",
+  "Computer Vision Services",
+  "Speech Recognition",
+  "Text-to-Speech",
+  "AI Model APIs",
+]
+
+[intelligence.analytics]
+components = [
+  "Predictive Analytics",
+  "Anomaly Detection",
+  "Pattern Recognition",
+  "Time Series Forecasting",
+  "Behavioral Analytics",
+]
+
+
+# Infrastructure Layer
+[infrastructure]
+
+[infrastructure.compute]
+components = [
+  "Virtual Machines",
+  "Bare Metal Servers",
+  "Serverless Compute (FaaS)",
+  "Edge Computing Nodes",
+]
+
+[infrastructure.storage]
+components = [
+  "Object Storage",
+  "Block Storage",
+  "File Storage",
+  "Storage Gateways",
+]
+
+[infrastructure.networking]
+components = [
+  "Virtual Networks",
+  "Load Balancers",
+  "Service Mesh",
+  "CDN",
+  "API Gateways",
+  "Ingress Controllers",
+]
+
+# Container Orchestration Layer
+[container_orchestration]
+
+[container_orchestration.platforms]
+components = ["Kubernetes", "Docker Swarm", "OpenShift"]
+
+[container_orchestration.workload_management]
+components = ["Deployments", "StatefulSets", "DaemonSets", "Jobs/CronJobs"]
+
+[container_orchestration.scheduling]
+components = [
+  "Node Selectors",
+  "Taints/Tolerations",
+  "Resource Quotas",
+  "Autoscalers",
+]
+
+
 # Security Layer
 [security]
 
@@ -242,6 +284,7 @@ components = [
   "APM Solutions",
   "End-to-End Transaction Monitoring",
 ]
+
 
 # DevOps/CI/CD Layer
 [devops_cicd]
