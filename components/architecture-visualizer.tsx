@@ -49,6 +49,13 @@ export function ArchitectureVisualizer({
   const { expandedLayers, expandedSections, expandedComponents } =
     useBlueprintStore();
 
+  // Layout constants
+  const HORIZONTAL_PADDING = 20; // Padding inside parent node
+  const SIBLING_SPACING = 15; // Spacing between sibling nodes
+  const MIN_SECTION_WIDTH = 100;
+  const MIN_COMPONENT_WIDTH = 80;
+  const BASE_COMPONENT_WIDTH = 150; // Default width for components before adjustment
+
   // Helper function to generate nodes based on expanded state
   const generateNodesFromBlueprint = useCallback(
     (
@@ -60,13 +67,8 @@ export function ArchitectureVisualizer({
       const newNodes: Node[] = [];
       let layerYOffset = 50;
       const layerX = 50;
-      const sectionXOffset = 50;
-      const componentXOffset = 50;
       const verticalSpacing = 50; // Spacing between elements within a parent
       const layerHeight = 100; // Base height, will grow with children
-      const sectionHeight = 80;
-      const componentHeight = 60;
-      const nodeWidth = 250;
       const layerWidth = 1000; // Make layers wide
 
       bp.layers.forEach((layer, layerIndex) => {
@@ -76,6 +78,8 @@ export function ArchitectureVisualizer({
           newNodes.push({
             id: layerId,
             type: "custom",
+            selectable: false,
+            draggable: false,
             position: { x: layerX, y: layerYOffset },
             data: { label: `${layer.name} Layer`, depth: 0 },
             style: {
@@ -95,25 +99,29 @@ export function ArchitectureVisualizer({
           );
           const secCount = activeSections.length;
           if (secCount > 0) {
-            const secWidth = nodeWidth;
-            // Calculate margins so children are spaced evenly
-            const totalSecWidth = secCount * secWidth;
-            const secMargin = (layerWidth - totalSecWidth) / (secCount + 1);
+            // --- Section Layout Calculation ---
+            const padding = HORIZONTAL_PADDING;
+            const innerWidth = layerWidth - padding * 2;
+            const totalSectionSpacing = (secCount - 1) * SIBLING_SPACING;
+            const secWidth = (innerWidth - totalSectionSpacing) / secCount;
+            const secY = verticalSpacing; // Position sections below layer label area
+
             // Sections positioned relative to the layer node
             activeSections.forEach((section, idx) => {
               const sectionId = `section-${layer.name}-${section.name}`;
-              const secX = secMargin * (idx + 1) + secWidth * idx;
-              // Position sections inside the layer with a fixed top offset
-              const secY = verticalSpacing;
+              const secX = padding + idx * (secWidth + SIBLING_SPACING);
+
               newNodes.push({
                 id: sectionId,
                 type: "custom",
+                selectable: false,
+                draggable: false,
                 position: { x: secX, y: secY },
                 data: { label: `${section.name} Section`, depth: 1 },
                 parentId: layerId,
                 extent: "parent",
                 style: {
-                  width: secWidth,
+                  width: secWidth, // Use calculated width
                   height: `${sectionNodeHeight}px`,
                   boxSizing: "border-box",
                 },
@@ -124,24 +132,29 @@ export function ArchitectureVisualizer({
               );
               const compCount = activeComps.length;
               if (compCount > 0) {
-                const compWidth = nodeWidth - componentXOffset * 2;
-                const totalCompWidth = compCount * compWidth;
-                const compMargin =
-                  (secWidth - totalCompWidth) / (compCount + 1);
+                // --- Component Layout Calculation ---
+                const padding = HORIZONTAL_PADDING;
+                const innerCompWidth = secWidth - padding * 2;
+                const totalComponentSpacing = (compCount - 1) * SIBLING_SPACING;
+                const compWidth =
+                  (innerCompWidth - totalComponentSpacing) / compCount;
+                const compY = verticalSpacing; // Position components below section label area
+
                 activeComps.forEach((component, jdx) => {
                   const compId = `component-${component.name}`;
-                  const compX = compMargin * (jdx + 1) + compWidth * jdx;
-                  // Position components inside the section with the same top offset
-                  const compY = verticalSpacing;
+                  const compX = padding + jdx * (compWidth + SIBLING_SPACING);
+
                   newNodes.push({
                     id: compId,
                     type: "custom",
+                    selectable: false,
+                    draggable: false,
                     position: { x: compX, y: compY },
                     data: { label: component.name, depth: 2 },
                     parentId: sectionId,
                     extent: "parent",
                     style: {
-                      width: compWidth,
+                      width: compWidth, // Use calculated width
                       height: `${componentNodeHeight}px`,
                       boxSizing: "border-box",
                     },
@@ -151,7 +164,7 @@ export function ArchitectureVisualizer({
             });
           }
           // Move to next layer vertically
-          layerYOffset += layerHeight + verticalSpacing;
+          layerYOffset += layerHeight + verticalSpacing; // Adjust layer Y offset based on its calculated height maybe? For now, fixed.
         }
       });
 
@@ -241,6 +254,7 @@ export function ArchitectureVisualizer({
         edgeTypes={edgeTypes}
         attributionPosition="bottom-right"
         minZoom={0.1}
+        fitView
         maxZoom={2.5} // Increased maxZoom
         defaultViewport={{ x: 0, y: 0, zoom: 1 }}
         nodesDraggable={true} // Allow dragging

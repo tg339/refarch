@@ -151,13 +151,20 @@ export function AppSidebarBlueprintContent({
                                       checked={
                                         expandedSections[sectionId] || false
                                       }
-                                      onCheckedChange={(checked) =>
-                                        handleToggleAllInSection(
-                                          layer.name,
-                                          section.name,
-                                          checked
-                                        )
-                                      }
+                                      onCheckedChange={(checked) => {
+                                        if (checked) {
+                                          // Ensure parent layer is also expanded when section is checked
+                                          setLayerExpanded(layer.name, true);
+                                          setSectionExpanded(sectionId, true);
+                                        } else {
+                                          // Use existing handler for unchecking (cascades down)
+                                          handleToggleAllInSection(
+                                            layer.name,
+                                            section.name,
+                                            false
+                                          );
+                                        }
+                                      }}
                                     />
                                     <a href={`#${sectionId}`}>
                                       {formatSectionName(section.name)}
@@ -178,12 +185,29 @@ export function AppSidebarBlueprintContent({
                                                   component.name
                                                 ] || false
                                               }
-                                              onCheckedChange={(checked) =>
-                                                setComponentExpanded(
-                                                  component.name,
-                                                  checked
-                                                )
-                                              }
+                                              onCheckedChange={(checked) => {
+                                                if (checked) {
+                                                  // Ensure parent section and layer are expanded when component is checked
+                                                  setLayerExpanded(
+                                                    layer.name,
+                                                    true
+                                                  );
+                                                  setSectionExpanded(
+                                                    sectionId,
+                                                    true
+                                                  );
+                                                  setComponentExpanded(
+                                                    component.name,
+                                                    true
+                                                  );
+                                                } else {
+                                                  // Just uncheck the component
+                                                  setComponentExpanded(
+                                                    component.name,
+                                                    false
+                                                  );
+                                                }
+                                              }}
                                             />
                                             <a href={`#${component.name}`}>
                                               {component.name}
