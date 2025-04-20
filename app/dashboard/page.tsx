@@ -14,8 +14,26 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { ReactFlowProvider } from "@xyflow/react";
+import fs from "fs/promises";
+import path from "path";
+import { parseBlueprint } from "@/lib/utils/blueprint-parser";
 
-export default function Page() {
+export default async function Page() {
+  // Load the blueprint TOML file from the filesystem
+  let blueprint;
+  try {
+    const filePath = path.join(
+      process.cwd(),
+      "work",
+      "architecture-blueprint.toml"
+    );
+    const tomlContent = await fs.readFile(filePath, "utf-8");
+    blueprint = parseBlueprint(tomlContent);
+  } catch (err) {
+    console.error("Failed to load blueprint:", err);
+    blueprint = { layers: [] };
+  }
+
   return (
     <SidebarProvider>
       <SidebarInset>
@@ -37,14 +55,9 @@ export default function Page() {
         </header>
         {/* Architecture visualization using React Flow */}
         <div className="flex flex-1 flex-col gap-4 p-4">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-          </div>
           <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min">
             <ReactFlowProvider>
-              <ArchitectureVisualizer />
+              <ArchitectureVisualizer blueprint={blueprint} />
             </ReactFlowProvider>
           </div>
         </div>
