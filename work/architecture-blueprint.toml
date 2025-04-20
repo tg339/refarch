@@ -51,8 +51,8 @@ components = [
 
 [business_logic.frameworks]
 components = [
-  "Event-Driven Architecture Components",
-  "Reactive Components",
+  "Event-Driven Frameworks",
+  "Reactive Frameworks",
   "Business Process Management",
   "Workflow Engines",
   "Rule Engines",

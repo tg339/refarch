@@ -1,4 +1,5 @@
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebar } from "@/components/app-sidebar";
+import { ArchitectureVisualizer } from "@/components/architecture-visualizer";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,12 +7,13 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from "@/components/ui/breadcrumb";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import { ReactFlowProvider } from "@xyflow/react";
 
 export default function Page() {
   return (
@@ -33,16 +35,21 @@ export default function Page() {
           </Breadcrumb>
           <SidebarTrigger className="-mr-1 ml-auto rotate-180" />
         </header>
+        {/* Architecture visualization using React Flow */}
         <div className="flex flex-1 flex-col gap-4 p-4">
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="bg-muted/50 aspect-video rounded-xl" />
             <div className="bg-muted/50 aspect-video rounded-xl" />
             <div className="bg-muted/50 aspect-video rounded-xl" />
           </div>
-          <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
+          <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min">
+            <ReactFlowProvider>
+              <ArchitectureVisualizer />
+            </ReactFlowProvider>
+          </div>
         </div>
       </SidebarInset>
       <AppSidebar side="right" />
     </SidebarProvider>
-  )
+  );
 }
